@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using PLANAZO_POO_CSharp.Services;
+
+var menu = new ConsoleMenu();
+menu.Run();

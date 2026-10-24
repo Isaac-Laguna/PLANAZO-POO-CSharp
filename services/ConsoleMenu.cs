@@ -16,6 +16,51 @@ public sealed class ConsoleMenu
 
     public void Run()
     {
+        var continueRunning = true;
+
+        while (continueRunning)
+        {
+            ShowMenu();
+            var option = Console.ReadLine();
+
+            switch (option)
+            {
+                case "1":
+                    ShowEvents();
+                    break;
+                case "2":
+                    FindEvent();
+                    break;
+                case "3":
+                    CreateReservation();
+                    break;
+                case "4":
+                    ShowReservations();
+                    break;
+                case "5":
+                    CancelReservation();
+                    break;
+                case "6":
+                    ShowSummary();
+                    break;
+                case "0":
+                    continueRunning = false;
+                    break;
+                case null:
+                    continueRunning = false;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida.");
+                    break;
+            }
+
+            if (continueRunning)
+            {
+                Console.WriteLine();
+            }
+        }
+
+        Console.WriteLine("Gracias por usar PLANAZO.");
     }
 
     private static void ShowMenu()
