@@ -58,3 +58,11 @@ Al seleccionar `1. Ver eventos disponibles`, se muestran los 12 eventos y los pr
 La ejecución de prueba crea una reserva válida y luego intenta superar los cupos. No hubo mas pruebas porque no cabe mas nada, tuve que hacer zoom out hasta que las letras parecian hormigas.
 
 ![Reservas, validaciones y cancelación](screenshots/reservation-flow.png)
+
+### Pregunta adicional
+
+**¿Por qué utilizaste una clase abstracta `Evento` en lugar de crear clases completamente independientes para Cine, Concierto y Taller? ¿Qué ventajas tiene esta decisión cuando necesitamos agregar un nuevo tipo de evento?**
+
+**Respuesta**: Ademas de que porque lo requeria la actividad, porque eso hace que la app sea mucho mas *escalable*. Que un proyecto o aplicacion sea escalable significa que es facilmente ampliable, agregarle funcionalidades nuevas no es extremadamente costoso ni tampoco requiere transformaciones monumentales de codigo (definicion de extremadamente costoso en codigo, vaya).
+
+La ventaja principal es que como la clase abstracta sirve de plano o molde, al agregar un nuevo tipo de evento tienes exactamente ese molde y no tienes que repetir codigo una y otra y otra vez. Ademas que asi plasmas una relacion tipo asi: *Cine* es un tipo de *Evento*, y asi se arman las relaciones. Legibilidad de codigo etc.
