@@ -10,6 +10,8 @@ public sealed class ConsoleMenu
 
     public ConsoleMenu()
     {
+        _catalog = InitialData.CreateCatalog();
+        _reservationService = new ReservationService(_catalog);
     }
 
     public void Run()
