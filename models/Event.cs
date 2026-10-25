@@ -1,8 +1,8 @@
 namespace PLANAZO_POO_CSharp.Models;
 
-public abstract class Evento
+public abstract class Event
 {
-    protected Evento(int id, string name, DateTime date, decimal basePrice, int maximumCapacity)
+    protected Event(int id, string name, DateTime date, decimal basePrice, int maximumCapacity)
     {
         if (id <= 0)
         {
@@ -39,7 +39,7 @@ public abstract class Evento
     public int MaximumCapacity { get; }
     public int AvailableSeats { get; private set; }
 
-    public abstract decimal CalcularPrecioFinal();
+    public abstract decimal CalculateFinalPrice();
 
     public void ReserveSeats(int quantity)
     {
