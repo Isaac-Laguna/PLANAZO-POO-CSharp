@@ -79,6 +79,7 @@ public sealed class ConsoleMenu
         Console.WriteLine("4. Ver reservas realizadas");
         Console.WriteLine("5. Cancelar una reserva");
         Console.WriteLine("6. Ver resumen de reservas");
+        Console.WriteLine("7. Consultar reservas por usuario");
         Console.WriteLine("0. Salir");
         Console.Write("Seleccione una opción: ");
     }
