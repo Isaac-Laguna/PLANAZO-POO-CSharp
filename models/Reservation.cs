@@ -1,8 +1,8 @@
 namespace PLANAZO_POO_CSharp.Models;
 
-public sealed class Reserva
+public sealed class Reservation
 {
-    internal Reserva(int id, string personName, Evento eventItem, int ticketCount)
+    internal Reservation(int id, User user, Event eventItem, int ticketCount)
     {
         if (ticketCount <= 0)
         {
@@ -10,16 +10,16 @@ public sealed class Reserva
         }
 
         Id = id;
-        PersonName = personName;
+        User = user;
         Event = eventItem;
         TicketCount = ticketCount;
-        TotalPrice = eventItem.CalcularPrecioFinal() * ticketCount;
+        TotalPrice = eventItem.CalculateFinalPrice() * ticketCount;
         Status = ReservationStatus.Active;
     }
 
     public int Id { get; }
-    public string PersonName { get; }
-    public Evento Event { get; }
+    public User User { get; }
+    public Event Event { get; }
     public int TicketCount { get; }
     public decimal TotalPrice { get; }
     public ReservationStatus Status { get; private set; }
