@@ -33,6 +33,10 @@ public sealed class ReservationService
         return reservation;
     }
 
+    public IReadOnlyList<Reservation> GetByUser(int userId) => _reservations
+        .Where(reservation => reservation.User.Id == userId)
+        .ToList();
+
     public void CancelReservation(int reservationId)
     {
         var reservation = _reservations.FirstOrDefault(item => item.Id == reservationId)
