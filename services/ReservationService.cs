@@ -5,7 +5,7 @@ namespace PLANAZO_POO_CSharp.Services;
 public sealed class ReservationService
 {
     private readonly EventCatalog _catalog;
-    private readonly List<Reserva> _reservations = [];
+    private readonly List<Reservation> _reservations = [];
     private int _nextId = 1;
 
     public ReservationService(EventCatalog catalog)
@@ -13,19 +13,19 @@ public sealed class ReservationService
         _catalog = catalog;
     }
 
-    public IReadOnlyList<Reserva> GetAll() => _reservations.AsReadOnly();
+    public IReadOnlyList<Reservation> GetAll() => _reservations.AsReadOnly();
 
-    public Reserva CreateReservation(string personName, int eventId, int ticketCount)
+    public Reservation CreateReservation(User user, int eventId, int ticketCount)
     {
-        if (string.IsNullOrWhiteSpace(personName))
+        if (user is null)
         {
-            throw new ArgumentException("A person's name is required.", nameof(personName));
+            throw new ArgumentException("A user is required.", nameof(user));
         }
 
         var eventItem = _catalog.FindById(eventId)
             ?? throw new KeyNotFoundException("No event was found with that identifier.");
 
-        var reservation = new Reserva(_nextId, personName.Trim(), eventItem, ticketCount);
+        var reservation = new Reservation(_nextId, user, eventItem, ticketCount);
         eventItem.ReserveSeats(ticketCount);
         _reservations.Add(reservation);
         _nextId++;
