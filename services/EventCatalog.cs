@@ -2,16 +2,11 @@ using PLANAZO_POO_CSharp.Models;
 
 namespace PLANAZO_POO_CSharp.Services;
 
-public sealed class EventCatalog
+public sealed class EventCatalog(IEnumerable<Event> events)
 {
-    private readonly List<Evento> _events;
+    private readonly IEnumerable<Event> _events = events;
 
-    public EventCatalog(IEnumerable<Evento> events)
-    {
-        _events = events.ToList();
-    }
-
-    public IReadOnlyList<Evento> GetAll() => _events.AsReadOnly();
-
-    public Evento? FindById(int id) => _events.FirstOrDefault(item => item.Id == id);
+    public IReadOnlyList<Event> GetAll() => _events.ToList().AsReadOnly();
+    
+    public Event? FindById(int id) => _events.FirstOrDefault(item => item.Id == id);
 }
