@@ -7,11 +7,13 @@ public sealed class ConsoleMenu
 {
     private readonly EventCatalog _catalog;
     private readonly ReservationService _reservationService;
+    private readonly UserService _userService;
 
     public ConsoleMenu()
     {
         _catalog = InitialData.CreateCatalog();
         _reservationService = new ReservationService(_catalog);
+        _userService = new UserService(InitialData.CreateUsers());
     }
 
     public void Run()
@@ -127,8 +129,9 @@ public sealed class ConsoleMenu
 
         try
         {
-            var reservation = _reservationService.CreateReservation(personName ?? string.Empty, eventId, ticketCount);
-            Console.WriteLine($"Reserva #{reservation.Id} creada para {reservation.PersonName}.");
+            var user = _userService.GetOrCreate(userName ?? string.Empty);
+            var reservation = _reservationService.CreateReservation(user, eventId, ticketCount);
+            Console.WriteLine($"Reserva #{reservation.Id} creada para {user.Name} (usuario #{user.Id}).");
             Console.WriteLine($"Valor total: {FormatCurrency(reservation.TotalPrice)}");
         }
         catch (ArgumentException)
@@ -157,7 +160,7 @@ public sealed class ConsoleMenu
         foreach (var reservation in reservations)
         {
             Console.WriteLine(
-                $"Reserva #{reservation.Id} | {reservation.PersonName} | {reservation.Event.Name} | " +
+                $"Reserva #{reservation.Id} | {reservation.User.Name} (#{reservation.User.Id}) | {reservation.Event.Name} | " +
                 $"{reservation.TicketCount} entrada(s) | {FormatCurrency(reservation.TotalPrice)} | " +
                 $"{GetReservationStatus(reservation.Status)}");
         }
