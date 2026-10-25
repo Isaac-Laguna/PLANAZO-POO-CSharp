@@ -1,0 +1,142 @@
+@startuml PLANAZO Class Diagram
+
+title PLANAZO - Class Diagram
+
+hide empty members
+
+' ============================
+' Domain models
+' ============================
+
+package "PLANAZO_POO_CSharp.Models" {
+
+  abstract class Event {
+    + Id : int
+    + Name : string
+    + Date : DateTime
+    + BasePrice : decimal
+    + MaximumCapacity : int
+    + AvailableSeats : int
+    + CalculateFinalPrice() : decimal {abstract}
+    + ReserveSeats(quantity : int) : void
+    - ReleaseSeats(quantity : int) : void
+  }
+
+  class Movie {
+    + CalculateFinalPrice() : decimal
+  }
+
+  class Concert {
+    + CalculateFinalPrice() : decimal
+  }
+
+  class Workshop {
+    + CalculateFinalPrice() : decimal
+  }
+
+  class Festival {
+    + CalculateFinalPrice() : decimal
+  }
+
+  class User {
+    + Id : int
+    + Name : string
+  }
+
+  enum ReservationStatus {
+    Active
+    Canceled
+  }
+
+  class Reservation {
+    + Id : int
+    + User : User
+    + Event : Event
+    + TicketCount : int
+    + TotalPrice : decimal
+    + Status : ReservationStatus
+    - Cancel() : void
+  }
+}
+
+' ============================
+' Services and UI
+' ============================
+
+package "PLANAZO_POO_CSharp.Services" {
+
+  class EventCatalog {
+    - events : List<Event>
+    + GetAll() : IReadOnlyList<Event>
+    + FindById(id : int) : Event?
+  }
+
+  class UserService {
+    - users : List<User>
+    - nextId : int
+    + GetAll() : IReadOnlyList<User>
+    + FindById(id : int) : User?
+    + GetOrCreate(name : string) : User
+  }
+
+  class ReservationService {
+    - catalog : EventCatalog
+    - reservations : List<Reservation>
+    - nextId : int
+    + GetAll() : IReadOnlyList<Reservation>
+    + GetByUser(userId : int) : IReadOnlyList<Reservation>
+    + CreateReservation(user : User, eventId : int, ticketCount : int) : Reservation
+    + CancelReservation(reservationId : int) : void
+    + GetSummary() : (int, int, decimal)
+  }
+
+  class InitialData {
+    + CreateCatalog() : EventCatalog {static}
+    + CreateUsers() : User[] {static}
+  }
+
+  class ConsoleMenu {
+    - catalog : EventCatalog
+    - reservationService : ReservationService
+    - userService : UserService
+    + Run() : void
+  }
+}
+
+' ============================
+' Program
+' ============================
+
+package "Program" {
+  class Program {
+    + $main : void
+  }
+}
+
+' ============================
+' Relationships
+' ============================
+
+Event <|-- Movie
+Event <|-- Concert
+Event <|-- Workshop
+Event <|-- Festival
+
+Reservation --> ReservationStatus : uses
+Reservation o--> User : 1 user per reservation
+Reservation o--> Event : 1 reserved event
+
+ReservationService o--> Reservation : creates and manages
+ReservationService --> EventCatalog : looks up events
+UserService o--> User : creates and manages
+EventCatalog o--> Event : stores
+
+ConsoleMenu --> EventCatalog : reads events
+ConsoleMenu --> ReservationService : uses
+ConsoleMenu --> UserService : uses
+
+InitialData ..> EventCatalog : creates
+InitialData ..> User : creates
+Program ..> ConsoleMenu : runs
+
+@enduml
