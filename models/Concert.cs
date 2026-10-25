@@ -1,11 +1,7 @@
 namespace PLANAZO_POO_CSharp.Models;
 
-public sealed class Concierto : Evento
+public sealed class Concert(int id, string name, DateTime date, decimal basePrice, int maximumCapacity) 
+    : Event(id, name, date, basePrice, maximumCapacity)
 {
-    public Concierto(int id, string name, DateTime date, decimal basePrice, int maximumCapacity)
-        : base(id, name, date, basePrice, maximumCapacity)
-    {
-    }
-
-    public override decimal CalcularPrecioFinal() => BasePrice * 1.15m;
+    public override decimal CalculateFinalPrice() => BasePrice * 1.15m;
 }
