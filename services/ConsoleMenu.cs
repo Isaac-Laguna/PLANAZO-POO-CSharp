@@ -110,6 +110,10 @@ public sealed class ConsoleMenu
     {
         Console.Write("Nombre de la persona: ");
         var personName = Console.ReadLine();
+        foreach (var eventItem in _catalog.GetAll())
+        {
+            ShowEventDetails(eventItem);
+        }
 
         if (!ReadInteger("Identificador del evento: ", out var eventId)
             || !ReadInteger("Cantidad de entradas: ", out var ticketCount))
