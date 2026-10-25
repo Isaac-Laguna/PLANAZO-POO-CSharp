@@ -43,6 +43,9 @@ public sealed class ConsoleMenu
                 case "6":
                     ShowSummary();
                     break;
+                case "7":
+                    ShowUserReservations();
+                    break;
                 case "0":
                     continueRunning = false;
                     break;
@@ -190,6 +193,52 @@ public sealed class ConsoleMenu
     }
 
     private static void ShowEventDetails(Evento eventItem)
+    private void ShowUserReservations()
+    {
+        var users = _userService.GetAll();
+        if (users.Count == 0)
+        {
+            Console.WriteLine("Todavía no hay usuarios registrados.");
+            return;
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("USUARIOS REGISTRADOS");
+        foreach (var user in users)
+        {
+            Console.WriteLine($"#{user.Id} | {user.Name}");
+        }
+
+        if (!ReadInteger("Identificador del usuario: ", out var userId))
+        {
+            return;
+        }
+
+        var selectedUser = _userService.FindById(userId);
+        if (selectedUser is null)
+        {
+            Console.WriteLine("No se encontró un usuario con ese identificador.");
+            return;
+        }
+
+        Console.WriteLine();
+        Console.WriteLine($"RESERVAS DE {selectedUser.Name}");
+
+        var userReservations = _reservationService.GetByUser(userId);
+        if (userReservations.Count == 0)
+        {
+            Console.WriteLine("Este usuario no tiene reservas.");
+            return;
+        }
+
+        foreach (var reservation in userReservations)
+        {
+            Console.WriteLine(
+                $"Reserva #{reservation.Id} | {reservation.Event.Name} | " +
+                $"{reservation.TicketCount} entrada(s) | {FormatCurrency(reservation.TotalPrice)} | " +
+                $"{GetReservationStatus(reservation.Status)}");
+        }
+    }
     {
         Console.WriteLine(
             $"#{eventItem.Id} | {GetEventType(eventItem)} | {eventItem.Name} | " +
