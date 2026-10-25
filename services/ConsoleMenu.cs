@@ -112,7 +112,8 @@ public sealed class ConsoleMenu
     private void CreateReservation()
     {
         Console.Write("Nombre de la persona: ");
-        var personName = Console.ReadLine();
+        var userName = Console.ReadLine();
+
         foreach (var eventItem in _catalog.GetAll())
         {
             ShowEventDetails(eventItem);
@@ -247,11 +248,12 @@ public sealed class ConsoleMenu
             $"Cupos: {eventItem.AvailableSeats}/{eventItem.MaximumCapacity}");
     }
 
-    private static string GetEventType(Evento eventItem) => eventItem switch
+    private static string GetEventType(Event eventItem) => eventItem switch
     {
-        Cine => "Cine",
-        Concierto => "Concierto",
-        Taller => "Taller",
+        Movie => "Cine",
+        Concert => "Concierto",
+        Workshop => "Taller",
+        Festival => "Festival",
         _ => "Evento"
     };
 
