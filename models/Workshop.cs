@@ -1,11 +1,7 @@
 namespace PLANAZO_POO_CSharp.Models;
 
-public sealed class Taller : Evento
+public sealed class Workshop(int id, string name, DateTime date, decimal basePrice, int maximumCapacity) 
+    : Event(id, name, date, basePrice, maximumCapacity)
 {
-    public Taller(int id, string name, DateTime date, decimal basePrice, int maximumCapacity)
-        : base(id, name, date, basePrice, maximumCapacity)
-    {
-    }
-
-    public override decimal CalcularPrecioFinal() => BasePrice * 0.90m;
+    public override decimal CalculateFinalPrice() => BasePrice * 0.90m;
 }
