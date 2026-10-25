@@ -192,7 +192,6 @@ public sealed class ConsoleMenu
         Console.WriteLine($"Valor total: {FormatCurrency(summary.TotalValue)}");
     }
 
-    private static void ShowEventDetails(Evento eventItem)
     private void ShowUserReservations()
     {
         var users = _userService.GetAll();
@@ -239,10 +238,12 @@ public sealed class ConsoleMenu
                 $"{GetReservationStatus(reservation.Status)}");
         }
     }
+
+    private static void ShowEventDetails(Event eventItem)
     {
         Console.WriteLine(
             $"#{eventItem.Id} | {GetEventType(eventItem)} | {eventItem.Name} | " +
-            $"{eventItem.Date:dd/MM/yyyy} | Precio: {FormatCurrency(eventItem.CalcularPrecioFinal())} | " +
+            $"{eventItem.Date:dd/MM/yyyy} | Precio: {FormatCurrency(eventItem.CalculateFinalPrice())} | " +
             $"Cupos: {eventItem.AvailableSeats}/{eventItem.MaximumCapacity}");
     }
 
